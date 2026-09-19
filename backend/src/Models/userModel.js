@@ -4,7 +4,6 @@ import mongoose from "mongoose";
 import validator from "validator";
 import bcrypt from "bcrypt";
 import crypto from "node:crypto";
-import { timeStamp } from "node:console";
 
 const userSchema = new mongoose.Schema(
     {
@@ -66,7 +65,7 @@ const userSchema = new mongoose.Schema(
             select:false
         },
     },
-    {timeStamps:true}
+    {timestamps:true}
 )
 //settings to not pass in response from server
 userSchema.set("toJSON",{
