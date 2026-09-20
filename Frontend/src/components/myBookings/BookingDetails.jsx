@@ -5,7 +5,7 @@ import { useParams } from "react-router-dom";
 import LoadingSpinner from "../LoadingSpinner";
 
 import { fetchBookingDetails } from "../../store/Booking/booking-action";
-import{useDispatch, useSelector} from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 const BookingDetails = () => {
   const { bookingId } = useParams();
@@ -13,13 +13,14 @@ const BookingDetails = () => {
 
   // STATIC: was `useSelector((state) => state.booking)`.
   // TODO: replace with your own booking details fetching logic.
-  const { bookingDetails } = useSelector((state) => state.booking);
-  
+   const {bookingDetails} = useSelector((state)=> state.booking);
+
   useEffect(() => {
     // TODO: fetch the booking details for `bookingId` here and set them below.
     // Statically we just look the booking up in the placeholder data.
     dispatch(fetchBookingDetails(bookingId))
-  }, [dispatch, bookingId]);
+
+  }, [dispatch,bookingId]);
 
   console.log(bookingDetails);
 

@@ -10,17 +10,19 @@ import LoadingSpinner from "../LoadingSpinner";
 
 import { getPropertyDetails } from "../../store/PropertyDetails/propertyDetails-action";
 import {useDispatch, useSelector} from "react-redux"
+
 const PropertyListing = () => {
 
   const { id } = useParams();
   const dispatch = useDispatch()
-  
+
    const {loading, propertydetails} = useSelector(
     (state) => state.propertydetails
-  )
-  useEffect(()=>{
+   )
+
+   useEffect(()=>{
     dispatch(getPropertyDetails(id))
-  },[dispatch, id]);
+   },[dispatch, id]);
 
   if (loading || !propertydetails)
     return (

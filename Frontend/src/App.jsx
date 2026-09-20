@@ -26,25 +26,27 @@ import Payment from "./components/payment/Payment";
 import NotFound from "./components/NotFound";
 import AiTripPlanner from "./components/aiTripPlanner/AiTripPlanner";
 
-import {useDispatch, useSelector} from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { userActions } from "./store/User/user-slice";
-import { currentUser } from "./store/User/user-action";
+import {currentUser} from "./store/User/user-action"
 
 function App() {
 
   const dispatch = useDispatch();
-  const {errors, user} = useSelector((state) => state.user);
+  const {errors,user} = useSelector((state)=>state.user);
 
   useEffect(()=>{
-  if(errors){
-    dispatch(userActions.clearErrors())
-  }
+    if(errors){
+      dispatch(userActions.clearErrors())
+    }
   },[errors, dispatch]);
+
 
   useEffect(()=>{
     dispatch(currentUser());
   },[dispatch]);
+
 
   return (
     <div className="App">

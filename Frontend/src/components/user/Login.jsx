@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useEffect } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "../../css/Login.css";
 import toast from "react-hot-toast";
@@ -12,26 +12,27 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
-
+  
   const dispatch = useDispatch();
 
-  const {isAuthenticated, errors, loading} = useSelector((state)=>state.user)
-  const submitHandler = (e)=>{
+  const { isAuthenticated, errors, loading} = useSelector((state) => state.user);
+
+  const submitHandler =(e) =>{
     e.preventDefault();
     dispatch(getLogin({email,password}))
   }
 
-  
-    useEffect(()=>{
-      if(errors && errors.length>0){
-        toast.error(errors);
-        dispatch(userActions.clearErrors())
-      } else if(isAuthenticated){
-        navigate("/");
-          toast.success("User logged in successfully")
-      }
-    },[isAuthenticated,errors,navigate])
-  
+ useEffect(()=>{
+    if(errors && errors.length>0){
+      toast.error(errors);
+      dispatch(userActions.clearErrors())
+    } else if(isAuthenticated){
+      navigate("/");
+      toast.success("User logged in successfully")
+    }
+  },[isAuthenticated,errors,navigate])
+
+
 
   return (
     <Fragment>

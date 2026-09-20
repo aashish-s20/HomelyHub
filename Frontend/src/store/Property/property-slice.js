@@ -1,14 +1,14 @@
 //state manager
-//all list of properties
-//count properties
-//add search filters
+// all list properties 
+//count
+//serach filters,
 //loading flag
 //error
 
-import {createSlice} from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 
 const propertySlice = createSlice({
-    name:"property",
+    name :"property",
     initialState:{
         properties:[],
         totalProperties: 0,
@@ -23,18 +23,18 @@ const propertySlice = createSlice({
         getProperties(state,action){
             state.properties = action.payload.data;
             state.totalProperties = action.payload.all_properties;
-            state.loading = false; //request finished => hide the loader
+            state.loading=false; // req finished => hide the loader
         },
-         updateSearchParams:(state,action)=>{
+        updateSearchParams:(state,action)=>{
             state.searchParams= Object.keys(action.payload).length ===0 ?{} :{
                 ...state.searchParams,
                 ...action.payload
             }
-         },
+        },
 
-         getErrors(state,action){
-            state.error = action.payload;
-         }
+        getErrors(state,action){
+            state.error = action.payload
+        }
 
     }
 

@@ -12,10 +12,9 @@ import { fetchBookingDetails, fetchUserBookings } from "../../store/Booking/book
 const MyBookings = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const {bookings, loading} = useSelector((state)=> state.booking);
+  const {bookings , loading} = useSelector((state)=> state.booking);
 
-
-
+  
   useEffect(() => {
     // fetch the user bookings here and set them above.
     dispatch(fetchUserBookings())

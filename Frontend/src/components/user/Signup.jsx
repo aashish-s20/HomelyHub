@@ -1,16 +1,16 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useState, useEffect } from "react";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import "../../css/Login.css";
-import {useDispatch, useSelector} from "react-redux";
-import { getSignup } from "../../store/User/user-action";
+import {useDispatch, useSelector} from "react-redux"
+import {getSignup} from "../../store/User/user-action"
 import { userActions } from "../../store/User/user-slice";
 
 const Signup = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const {isAuthenticated, errors} = useSelector((state) => state.user);
+  const { isAuthenticated, errors} = useSelector((state)=> state.user);
 
   const [user, setUser] = useState({
     name: "",
@@ -43,9 +43,10 @@ const Signup = () => {
       dispatch(userActions.clearErrors())
     } else if(isAuthenticated){
       navigate("/");
-        toast.success("User logged in successfully")
+      toast.success("User logged in successfully")
     }
   },[isAuthenticated,errors,navigate])
+
 
   return (
     <Fragment>

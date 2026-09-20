@@ -1,16 +1,16 @@
-// propertyDetails
+// propertDetails
 
-// create a slice name 
+// create a slice name
 // create initial state 
 // Request starts 
 // property data received
-// error occurs
-// export actions 
-// export slice 
+// error occurs 
+// export Actions 
+// export slice
 
-import {createSlice} from"@reduxjs/toolkit";
+import {createSlice} from "@reduxjs/toolkit";
 
-const propertyDetailsSlice = createSlice({
+const propertDetailsSlice = createSlice({
     name: "propertyDetails",
     initialState:{
         propertydetails:null,
@@ -32,5 +32,5 @@ const propertyDetailsSlice = createSlice({
     }
 })
 
-export const propertyDetailsAction = propertyDetailsSlice.actions;
-export default propertyDetailsSlice;
+export const propertDetailsAction = propertDetailsSlice.actions;
+export default propertDetailsSlice;

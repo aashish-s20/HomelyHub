@@ -1,10 +1,9 @@
 import React, { useState } from "react";
 import { useForm } from "@tanstack/react-form";
 import { DatePicker, Space } from "antd";
-import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import moment from "moment";
-import { setPaymentDetails } from "../../store/Payment/payment-slice";
+import { STATIC_IS_AUTHENTICATED } from "../../data/staticData";
 
 const PaymentForm = ({
   price,
@@ -15,10 +14,12 @@ const PaymentForm = ({
   currentBookings,
 }) => {
   const [calculatedPrice, setCalulatedPrice] = useState(0);
-  const dispatch = useDispatch();
   const navigate = useNavigate();
   const { RangePicker } = DatePicker;
-  const { isAuthenticated } = useSelector((state) => state.user);
+
+  // STATIC: was `useSelector((state) => state.user)`.
+  // TODO: replace with your own auth logic.
+  const [isAuthenticated] = useState(STATIC_IS_AUTHENTICATED);
 
   const isDateDisabled = (current) => {
     const today = moment().startOf("day");
@@ -49,19 +50,21 @@ const PaymentForm = ({
       const nights = moment(checkoutDate).diff(moment(checkinDate), "days");
       const { name, guests, phoneNumber } = value;
       if (name && guests && phoneNumber && checkinDate && checkoutDate) {
-        await dispatch(
-          setPaymentDetails({
-            checkinDate: checkinDate,
-            checkoutDate: checkoutDate,
-            nights,
-            totalPrice: calculatedPrice,
-            propertyName,
-            address,
-            guests: Number(guests),
-            name,
-            phoneNumber,
-          })
-        );
+        // TODO: add your "save booking details" logic here.
+        // The payload the original app used:
+        const paymentDetails = {
+          checkinDate: checkinDate,
+          checkoutDate: checkoutDate,
+          nights,
+          totalPrice: calculatedPrice,
+          propertyName,
+          address,
+          guests: Number(guests),
+          name,
+          phoneNumber,
+        };
+        console.log(paymentDetails);
+
         navigate(`/payment/${propertyId}`);
       } else {
         alert("Please fill all fields correctly before proceeding.");

@@ -1,24 +1,20 @@
 import React, { useEffect, useState } from "react";
 import "../../css/Payment.css";
-import {
-  initiateCheckoutSession,
-  verifyPayment,
-} from "../../store/Payment/payment-action";
-import {
-  selectPaymentDetails,
-  selectPaymentStatus,
-  paymentActions,
-} from "../../store/Payment/payment-slice";
-import { useSelector, useDispatch } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import toast from "react-hot-toast";
+import {
+  STATIC_PAYMENT_DETAILS,
+  STATIC_ORDER_DATA,
+} from "../../data/staticData";
 
 const Payment = () => {
-  const dispatch = useDispatch();
   const navigate = useNavigate();
   const { propertyId } = useParams();
   const [showPaymentGateaway, setShowPaymentGateaway] = useState(false);
 
+  // STATIC: was `useSelector(selectPaymentDetails)`.
+  // TODO: replace with your own booking details logic.
+  const [paymentDetails] = useState(STATIC_PAYMENT_DETAILS);
   const {
     checkinDate,
     checkoutDate,
@@ -26,9 +22,13 @@ const Payment = () => {
     propertyName,
     guests,
     nights,
-  } = useSelector(selectPaymentDetails);
+  } = paymentDetails;
 
-  const { loading, error, orderData } = useSelector(selectPaymentStatus);
+  // STATIC: was `useSelector(selectPaymentStatus)`.
+  // TODO: replace with your own payment status logic.
+  const [loading, setLoading] = useState(false);
+  const [error] = useState(null);
+  const [orderData, setOrderData] = useState(null);
 
   const handleBooking = async () => {
     const paymentData = {
@@ -38,34 +38,20 @@ const Payment = () => {
       toDate: checkoutDate,
       guests,
     };
-    try {
-      await dispatch(initiateCheckoutSession(paymentData));
-    } catch {
-      toast.error("Payment initiation failed");
-    }
-  };
-  const handleConfirmPayment = async () => {
-    try {
-      await dispatch(
-        verifyPayment({
-          orderId: orderData.orderId,
-          bookingDetails: {
-            propertyId,
-            fromDate: checkinDate,
-            toDate: checkoutDate,
-            guests,
-            price: totalPrice,
-          },
-          forceStatus: "success",
-        })
-      );
+    console.log(paymentData);
 
-      toast.success("🎉 Payment Successful! Booking Confirmed!");
-      setTimeout(() => navigate("/user/mybookings"), 1000);
-      dispatch(paymentActions.resetPayment());
-    } catch {
-      toast.error("Payment failed!");
-    }
+    // TODO: add your "create order / initiate checkout" logic here.
+    // Statically we just show the payment gateway screen.
+    setLoading(true);
+    setOrderData(STATIC_ORDER_DATA);
+    setLoading(false);
+  };
+
+  const handleConfirmPayment = async () => {
+    // TODO: add your "verify payment" logic here.
+    toast.success("🎉 Payment Successful! Booking Confirmed!");
+    setTimeout(() => navigate("/user/mybookings"), 1000);
+    setOrderData(null);
   };
 
   const handleCancelPayment = () => {
