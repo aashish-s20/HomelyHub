@@ -13,6 +13,7 @@ import connectDB from "./utils/db.js";
 dotenv.config();
 
 const app = express();
+app.use(cors({ origin: true, credentials: true }));
 
 //express.json
 app.use(express.json({limit:"100mb"}))
