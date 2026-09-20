@@ -1,71 +1,68 @@
-//which property?
-//who is the user?
-//price of booking?
+//which property???
+//whis user
+//price
 //dates
-//number of guests
-//paid or free
+//guests,
+//paid
 
-import mongoose from"mongoose";
+import mongoose from "mongoose";
+
+
 const bookingSchema = new mongoose.Schema(
     {
-        property:{
-            type:mongoose.Schema.ObjectId,
-            ref: "Property",
-            required:[true, "Booking must belong to a Property"]
-        },
+      property:{
+        type: mongoose.Schema.ObjectId,
+        ref: "Property",
+        required:[true,"Booking must belong to a Property"]
+      },
 
-        user:{
-             type:mongoose.Schema.ObjectId,
-            ref: "User",
-            required:[true, "Booking must belong to a User"]
-        },
+      user:{
+         type: mongoose.Schema.ObjectId,
+        ref: "User",
+        required:[true,"Booking must belong to a User"]
+      },
 
-        price:{
-            type:Number,
-            required:[true, "Booking must have a price"]
-        },
-        
-        createdAt:{
-            type:Date,
-            default:Date.now()
-        },
+      price:{
+        type:Number,
+        required:[true,"Booking must have price"]
+      },
 
-        paid:{
-            type:Boolean,
-            default:true
-        },
-
-        fromDate:{
-            type:Date,
-        },
-
-        toDate:{
-            type:Date
-        },
-
-        guests:{
-            type:Number
-        },
-
-        numberOfnights:{
-            type:Number
-        }
+      createdAt:{
+        type:Date,
+        default:Date.now()
+      },
+      paid:{
+        type:Boolean,
+        default:true
+      },
+      fromDate:{
+        type:Date
+      },
+      toDate:{
+       type:Date,
+      },
+      guests:{
+        type:Number
+      },
+      numberOfnights:{
+        type:Number
+      }
     },
-
+    
     {timestamps:true}
-
 );
+
 
 bookingSchema.pre(/^find/, function(){
     this.populate("user");
-        
+
         this.populate({
         path:"property",
-        select: "maximumGuest images propertyName address"
+        select:  "maximumGuest images propertyName address"
     });
-
+ 
 })
 
 const Booking = mongoose.model("Booking", bookingSchema);
 
-export{Booking};
+export {Booking};

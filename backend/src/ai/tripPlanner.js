@@ -24,13 +24,14 @@ Reply with ONLY this JSON shape:
 }`;
 
 const planTrip = async (trip) => {
+
   const tripInfo = `- Destination: ${trip.destination}
 - Total Budget: Rs ${trip.budget}
 - Number of Days: ${trip.days}
 - Number of People: ${trip.people}
 - Interests: ${trip.interests.join(", ")}`;
 
-//calling GROQ
+// calling GRoq
   const completion = await groq.chat.completions.create({
     model: "openai/gpt-oss-120b",
     max_tokens: 2000,

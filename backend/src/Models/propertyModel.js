@@ -1,5 +1,5 @@
-import slugify from "slugify";
-import mongoose from "mongoose";
+import slugify from 'slugify';
+import mongoose from 'mongoose';
 
 const propertySchema = new mongoose.Schema({
     propertyName:{
@@ -7,43 +7,40 @@ const propertySchema = new mongoose.Schema({
         required:[true, "Please enter your property name"]
     },
     description:{
-        type: String,
+        type:String,
         required:[true, "Please add information about your property"]
     },
     extraInfo:{
-        type: String,
-        default:"checkin on time. good services available."
+        type:String,
+        default:"checkin on time. good services."
     },
     propertyType:{
-        type: String,
+        type:String,
         enum:["House", "Flat", "Guest House", "Hotel"],
         default:"House"
     },
-    roomType:{
-        type: String,
+        roomType:{
+        type:String,
         enum:["Anytype", "Room", "Entire Home"],
         default:"Anytype"
     },
 
     maximumGuest:{
-        type:Number,
-        required:[true, "Please give the maximum number of guest that can occupy"]
+        type:Number ,
+        required:[true, "Please give the maximum no of Guest that can oocupy"]
     },
 
     amenities:[
         {
             name:{
-                type: String,
+                type:String,
                 required:true,
                 enum:[
                     "Wifi",
                     "Kitchen",
                     "Ac",
-                    "AC",
                     "Waching Machine",
-                    "Washing Machine",
                     "Tv",
-                    "TV",
                     "Pool",
                     "Free Parking"
                 ]
@@ -75,7 +72,7 @@ const propertySchema = new mongoose.Schema({
     },
     price:{
         type:Number,
-        required:[true, "Please enter the price per night value"],
+        required:[true,"please enter the price per night value"],
         default:500
     },
     address:{
@@ -84,9 +81,9 @@ const propertySchema = new mongoose.Schema({
         state:String,
         pincode:Number
     },
-    
+    //
     currentBookings:[
-        {
+           {
             bookingId:{
                 type:mongoose.Schema.Types.ObjectId,
                 ref:"Booking"
@@ -94,17 +91,16 @@ const propertySchema = new mongoose.Schema({
             fromDate:{
                 type:Date
             },
-
             toDate:{
-                type:Date
+                 type:Date,
             },
             userId:{
                 type:mongoose.Schema.Types.ObjectId,
                 ref:"User"
             }
-         }
-
+           }
     ],
+
     userId:{
         type: mongoose.Schema.Types.ObjectId,
         ref: "User"
@@ -113,11 +109,10 @@ const propertySchema = new mongoose.Schema({
     slug:String,
     checkInTime:{type:String,default:"11:00"},
     checkOutTime:{type:String,default:"13:00"}
-
 })
 
 propertySchema.pre("save", function(next){
-    this.slug = slugify(this.propertyName,{lower:true});
+    this.slug =slugify(this.propertyName,{lower:true});
     next();
 })
 
@@ -126,6 +121,6 @@ propertySchema.pre("save", function(next){
     next();
 })
 
-const Property = mongoose.models.Property || mongoose.model("Property", propertySchema);
-
+// const Property = mongoose.model("Property", propertySchema);
+const Property = mongoose.models.Property ||  mongoose.model("Property", propertySchema);
 export{Property};

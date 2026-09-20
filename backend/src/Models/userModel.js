@@ -1,35 +1,36 @@
-// user Schema
+//user Schema
 
 import mongoose from "mongoose";
 import validator from "validator";
 import bcrypt from "bcrypt";
-import crypto from "node:crypto";
+import crypto from "node:crypto"
 
 const userSchema = new mongoose.Schema(
     {
-        name: {
-            type: String,
+        name:{
+            type:String,
             required: [true, "Please enter your name"],
+            // '           John           ' => 'John'
             trim: true,
-            maxlength: [50, "Your name cannot be longer than 50 characters"]
+            maxLength:[50, "your name cannot be longer than 50 characters"]
         },
         email:{
             type: String,
-            required:[true,"Please enter emailId"],
+            required: [true, "Please enter email ID"],
             unique: true,
             lowercase:true,
             trim:true,
-            validate: [validator.isEmail, "Please enter valid email address"]
+            validate: [validator.isEmail, "Please enter valide email address"]
         },
         password:{
             type: String,
-            required:[true,"Please enter password"],
-            minlength: [6, "Your password must be no longer than 6 characters"],
+            required: [true, "Please enter password"],
+            minlength: [6, "Your password must be longer than 6 characters"],
             select:false
         },
-        passwordConfirm: {
+        passwordConfirm :{
             type: String,
-            required:[true,"Please confirm your password"],
+            required: [true, "Please confirm your password"],
             validate:{
                 validator:function(el){
                     return el === this.password
@@ -45,7 +46,7 @@ const userSchema = new mongoose.Schema(
         },
         role:{
             type:String,
-            enum:["user","admin"],
+            enum:["user", "admin"],
             default:"user"
         },
         avatar:{
@@ -61,47 +62,49 @@ const userSchema = new mongoose.Schema(
             index:true
         },
         passwordResetExpires:{
-            type:Date,
-            select:false
+            type:Date, 
+            select:false,
         },
     },
     {timestamps:true}
 )
+
 //settings to not pass in response from server
 userSchema.set("toJSON",{
-    transform:function(doc,ret){
-        delete ret.password,
-        delete ret.passwordConfirm,
-        delete ret.passwordResetToken,
-        delete ret.passwordResetExpires,
+    transform:function (doc,ret){
+        delete ret.password;
+        delete ret.passwordConfirm;
+        delete ret.passwordResetToken;
+        delete ret.passwordResetExpires;
         delete ret.__v;
         return ret;
     }
 })
 
 //password logic
-//hashing
-userSchema.pre("save", async function () {
-    if (!this.isModified("password")) return;
+//Hashing
+userSchema.pre("save",async function(){
+    if(!this.isModified("password")) return;
 
-    this.password = await bcrypt.hash(this.password, 12);
+    this.password = await bcrypt.hash(this.password,12)
     this.passwordConfirm = undefined;
-});
+    
+})
 
 //login check
-//test123 === e32fjdsbmjfILUQ2B1
-
+//test123 === e32tr2yut36rgdw6r536r537
 userSchema.methods.correctPassword = async function(candidatePassword, userPassword){
-    return await bcrypt.compare(candidatePassword,userPassword)
+ return await bcrypt.compare(candidatePassword,userPassword)
 }
 
-userSchema.methods.changedPasswordAfter = function(JWTimestamp){
+//
+userSchema.methods.changedPasswordAfter = function (JWTTimestamp){
     if(this.passwordChangedAt){
         const changedTimeStamp = parseInt(
-            this.passwordChangedAt.getTime()/1000,
+            this.passwordChangedAt.getTime()/1000, 
             10
         );
-        return JWTimestamp < changedTimeStamp
+        return JWTTimestamp < changedTimeStamp
     }
     return false;
 }
@@ -113,10 +116,11 @@ userSchema.methods.createPasswordResetToken = function(){
     .update(resetToken)
     .digest("hex");
 
-    this.passwordResetExpires = Date.now() +10 *60*1000;
+    this.passwordResetExpires = Date.now() +10 *60 *1000;
     return resetToken;
 }
 
-const User = mongoose.model("User",userSchema);
+
+const User = mongoose.model("User", userSchema);
 //in mongodb : users
 export {User};
