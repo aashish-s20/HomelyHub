@@ -29,7 +29,7 @@ const verifyPayment = async(req,res) =>{
     const{orderId, bookingDetails, forceStatus} = req.body;
 
     if(forceStatus === "success"){
-        const paymentId = "_pay" + Date.now();
+        const paymentId = "pay_" + Date.now();
         //save booking
         const newBooking = await Booking.create({
             user: req.user._id,

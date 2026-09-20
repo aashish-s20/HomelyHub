@@ -13,7 +13,7 @@ const BookingDetails = () => {
 
   // STATIC: was `useSelector((state) => state.booking)`.
   // TODO: replace with your own booking details fetching logic.
-  const {bookingDetails} = useSelector((state=> state.booking));
+  const { bookingDetails } = useSelector((state) => state.booking);
   
   useEffect(() => {
     // TODO: fetch the booking details for `bookingId` here and set them below.
