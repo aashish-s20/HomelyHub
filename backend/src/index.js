@@ -14,6 +14,13 @@ dotenv.config();
 
 const app = express();
 
+// Enable CORS for Netlify and local development
+app.use(
+  cors({
+    origin: true, // Allows your Netlify URL and localhost
+    credentials: true,
+  })
+);
 //express.json
 app.use(express.json({limit:"100mb"}))
 
