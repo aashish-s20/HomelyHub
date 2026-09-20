@@ -21,10 +21,10 @@ const getProperties = async(req,res)=>{
       const doc = await features.query;
 
       res.status(200).json({
-        status:"success",
-        no_of_responses: doc.length,
-        data:doc
-      })
+      status: "success",
+      no_of_responses: doc.length,
+      data: doc,
+      });
     }catch(error){
         console.error("Error searching properties: ", error)
             res.status(500).json({error:"Internal server Error"})
