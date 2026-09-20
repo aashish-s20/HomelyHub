@@ -4,7 +4,7 @@ import axios from 'axios';
 import qs from 'qs';
 
 export const axiosInstance = axios.create({
-    baseURL: '/api',
+    baseURL: 'https://homelyhub-8fav.onrender.com/api',
     withCredentials: true,
     paramsSerializer: params => qs.stringify(params, { arrayFormat: 'repeat' }),
 })
