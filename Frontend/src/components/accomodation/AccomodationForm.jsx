@@ -62,7 +62,7 @@ const AccomodationForm = () => {
         };
         console.log(newAccomodation);
         toast.success("New Property Created Successfully");
-        navigate("/accomodation");
+        navigate("/accommodation");
       } catch (error) {
         toast.error(error.message);
         console.error(error.message);

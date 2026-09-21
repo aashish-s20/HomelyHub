@@ -20,7 +20,7 @@ const Accomodation = () => {
     <>
       <ProgressSteps accomodation />
       <div className="accom-container">
-        <Link to="/accomodationform">
+        <Link to="/accommodationform">
           <button className="add-new-place">+ Add new place</button>
         </Link>
         {loading && <LoadingSpinner />}

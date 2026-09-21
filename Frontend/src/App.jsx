@@ -67,8 +67,8 @@ function App() {
 
             <Route path="ai-trip-planner" element={<AiTripPlanner />} />
 
-            <Route path="accomodation" element={<Accomodation />} />
-            <Route path="accomodationform" element={<AccomodationForm />} />
+            <Route path="accommodation" element={<Accomodation />} />
+            <Route path="accommodationform" element={<AccomodationForm />} />
 
             <Route path="user/forgotPassword" element={<ForgetPassword />} />
             <Route
