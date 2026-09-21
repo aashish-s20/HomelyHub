@@ -32,7 +32,7 @@ const ProgressSteps = () => {
       <NavLink
         to="/accommodation"
         className={`progress-button ${
-          location.pathname === "/accommodation" ? "active-button" : ""
+          location.pathname === "/accommodation" || location.pathname === "/accomodation" ? "active-button" : ""
         }`}
       >
         <div className="triangle-left"></div>

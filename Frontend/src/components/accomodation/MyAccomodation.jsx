@@ -10,7 +10,7 @@ const MyAccomodation = ({ accomodation }) => {
           <div className="myaccomodation-image-container col-lg-3 col-md-3">
             <img
               className="myaccomodation-img"
-              src={accomodation.images[0].url}
+              src={accomodation.images?.[0]?.url || "/assets/property2.webp"}
               alt={accomodation.propertyName}
             />
           </div>
@@ -23,7 +23,7 @@ const MyAccomodation = ({ accomodation }) => {
                 <span className="material-symbols-outlined icon">
                   calendar_month
                 </span>
-                Check In Time: {accomodation.chekInTime}
+                Check In Time: {accomodation.chekInTime || accomodation.checkInTime || "13:00"}
               </span>
               <span className="material-symbols-outlined icon">
                 arrow_forward
@@ -32,11 +32,11 @@ const MyAccomodation = ({ accomodation }) => {
                 <span className="material-symbols-outlined icon">
                   calendar_month
                 </span>
-                Check Out Time: {accomodation.chekOutTime}
+                Check Out Time: {accomodation.chekOutTime || accomodation.checkOutTime || "11:00"}
               </span>
             </div>
             <p className="myaccomodation-city">
-              City :{accomodation.address.city}
+              City :{accomodation.address?.city || "Goa"}
             </p>
             <p className="myaccomodation-guest">
               Max no of guest : {accomodation.maximumGuest}

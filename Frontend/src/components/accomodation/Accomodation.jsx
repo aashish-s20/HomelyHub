@@ -7,13 +7,32 @@ import LoadingSpinner from "../LoadingSpinner";
 import { STATIC_ACCOMODATION } from "../../data/staticData";
 
 const Accomodation = () => {
-  // STATIC: was `useSelector((state) => state.accomodation)`.
-  // TODO: replace with your own accomodation fetching logic.
-  const [accomodation] = useState(STATIC_ACCOMODATION);
+  const [accomodation, setAccomodation] = useState(() => {
+    try {
+      const saved = localStorage.getItem("user_accommodations");
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+      }
+    } catch (e) {
+      console.error(e);
+    }
+    return STATIC_ACCOMODATION;
+  });
   const [loading] = useState(false);
 
   useEffect(() => {
-    // TODO: fetch the user's accomodations here and set them above.
+    try {
+      const saved = localStorage.getItem("user_accommodations");
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          setAccomodation(parsed);
+        }
+      }
+    } catch (e) {
+      console.error(e);
+    }
   }, []);
 
   return (

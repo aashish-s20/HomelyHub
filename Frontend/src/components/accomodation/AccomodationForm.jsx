@@ -6,6 +6,7 @@ import { AddressField } from "./AddressField";
 import AmenitiesField from "./AmenitiesField";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
+import { STATIC_ACCOMODATION } from "../../data/staticData";
 
 const Section = ({ icon, title, hint, children }) => (
   <section className="accf-card">
@@ -21,8 +22,6 @@ const Section = ({ icon, title, hint, children }) => (
 const AccomodationForm = () => {
   const navigate = useNavigate();
 
-  // STATIC: was `useSelector((state) => state.accomodation)`.
-  // TODO: replace with your own create-accomodation logic.
   const [loading] = useState(false);
   const [aiLoading, setAiLoading] = useState(false);
 
@@ -43,24 +42,53 @@ const AccomodationForm = () => {
     },
     onSubmit: async ({ value }) => {
       try {
-        console.log(value);
-        // TODO: add your "create accomodation" logic here.
-        // The payload the original app used:
         const newAccomodation = {
+          _id: `accom_${Date.now()}`,
           propertyName: value.name,
           description: value.description,
-          propertyType: value.propertyType,
-          roomType: value.roomType,
-          extraInfo: value.extraInfo,
-          images: value.images,
-          address: value.address,
-          amenities: value.amenities,
-          checkInTime: value.checkIn,
-          checkOutTime: value.checkOut,
-          maximumGuest: value.maximumGuest,
-          price: value.price,
+          propertyType: value.propertyType || "House",
+          roomType: value.roomType || "Entire Home",
+          extraInfo: value.extraInfo || "",
+          images:
+            value.images && value.images.length > 0
+              ? value.images
+              : [{ url: "/assets/property2.webp" }],
+          address: {
+            area: value.address?.area || "Central Area",
+            city: value.address?.city || "Goa",
+            state: value.address?.state || "Goa",
+            pincode: value.address?.pincode || "403516",
+          },
+          amenities: value.amenities || [],
+          chekInTime: value.checkIn || "13:00",
+          checkInTime: value.checkIn || "13:00",
+          chekOutTime: value.checkOut || "11:00",
+          checkOutTime: value.checkOut || "11:00",
+          maximumGuest: Number(value.maximumGuest) || 2,
+          price: Number(value.price) || 2500,
         };
-        console.log(newAccomodation);
+
+        // Prepend to static data in memory
+        STATIC_ACCOMODATION.unshift(newAccomodation);
+
+        // Persist to localStorage
+        try {
+          const saved = localStorage.getItem("user_accommodations");
+          let currentList = [];
+          if (saved) {
+            const parsed = JSON.parse(saved);
+            if (Array.isArray(parsed)) currentList = parsed;
+          }
+          if (currentList.length === 0) {
+            currentList = [...STATIC_ACCOMODATION];
+          } else {
+            currentList.unshift(newAccomodation);
+          }
+          localStorage.setItem("user_accommodations", JSON.stringify(currentList));
+        } catch (storageError) {
+          console.error("Failed to save to localStorage:", storageError);
+        }
+
         toast.success("New Property Created Successfully");
         navigate("/accommodation");
       } catch (error) {
